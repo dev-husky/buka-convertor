@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: Youyuan, Arial, Helvetica, sans-serif, 微软雅黑;
+	background: none repeat scroll 0% 0% #000000;
+	margin: 0;
+}
+
+.pic {
+	padding-top: 10px;
+}
+.pic > img {
+	/* border: 1px solid #000000; */
+	margin: 0 auto;
+	height: 960px;
+	display: block;
+}
+.pic-control-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+}
+.prev-button {
+	left: 0;
+	width: 40%;
+	/* background-color: #121212; */
+}
+.menu-button {
+	left: 40%;
+	width: 20%;
+	/* background-color: #d1d1d1; */
+}
+.next-button {
+	left: 60%;
+	width: 40%;
+	/* background-color: #555555; */
+}

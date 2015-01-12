@@ -18,18 +18,19 @@ public class Main {
 			execute();
 		} catch (Exception e) {
 			Log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
 	public static void parseArgs(String[] args) {
-		Config.set(Key.INPUT_DIR_PATH, "E:\\Private\\ibuka\\2187");
-		Config.set(Key.BUKA_PARSER_DIR_PATH, "D:\\Downloads\\buka_2.2");
-		Config.set(Key.BUKA_PARSER_EXE_PATH, "D:\\Downloads\\buka_2.2\\buka.exe");
-		Config.set(Key.BUKA_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\2187\\chaporder.dat");
+		Config.set(Key.INPUT_DIR_PATH, "E:\\Private\\ibuka\\resource\\10778");
+//		Config.set(Key.BUKA_PARSER_DIR_PATH, "D:\\Workspaces\\github\\buka-convertor\\lib\\buka_2.2");
+		Config.set(Key.BUKA_PARSER_EXE_PATH, "D:\\Workspaces\\github\\buka-convertor\\lib\\buka_2.2\\buka.exe");
+		Config.set(Key.BUKA_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\resource\\10778\\chaporder.dat");
 
-		Config.set(Key.OUTPUT_DIR_PATH, "E:\\Private\\ibuka\\2187_output");
-		Config.set(Key.OUTPUT_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\2187_output\\chaporder.dat");
-		Config.set(Key.BUKA_OUTPUT_DIR_PATH, "E:\\Private\\ibuka\\2187_output\\buka_output");
+		Config.set(Key.OUTPUT_DIR_PATH, "E:\\Private\\ibuka");
+//		Config.set(Key.OUTPUT_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\2187_output\\chaporder.dat");
+//		Config.set(Key.BUKA_OUTPUT_DIR_PATH, "E:\\Private\\ibuka\\2187_output\\buka_output");
 		
 	}
 	
@@ -42,17 +43,17 @@ public class Main {
 		File outputDir = new File(Config.get(Key.OUTPUT_DIR_PATH));
 		FileUtil.checkDir(outputDir, true);
 
-		Log.info(Key.BUKA_PARSER_DIR_PATH.toString());
-		File bukaParserDir = new File(Config.get(Key.BUKA_PARSER_DIR_PATH));
-		FileUtil.checkDir(bukaParserDir, false);
+//		Log.info(Key.BUKA_PARSER_DIR_PATH.toString());
+//		File bukaParserDir = new File(Config.get(Key.BUKA_PARSER_DIR_PATH));
+//		FileUtil.checkDir(bukaParserDir, false);
 		
 		Log.info(Key.BUKA_PARSER_EXE_PATH.toString());
 		File bukaParserExe = new File(Config.get(Key.BUKA_PARSER_EXE_PATH));
 		FileUtil.checkFile(bukaParserExe, false);
 		
-		Log.info(Key.BUKA_OUTPUT_DIR_PATH.toString());
-		File bukaOutputDir = new File(Config.get(Key.BUKA_OUTPUT_DIR_PATH));
-		FileUtil.checkDir(bukaOutputDir, true);
+//		Log.info(Key.BUKA_OUTPUT_DIR_PATH.toString());
+//		File bukaOutputDir = new File(Config.get(Key.BUKA_OUTPUT_DIR_PATH));
+//		FileUtil.checkDir(bukaOutputDir, true);
 		
 		Log.info(Key.BUKA_CHAPORDER_FILE_PATH.toString());
 		File chapOrderFile = new File(Config.get(Key.BUKA_CHAPORDER_FILE_PATH));
