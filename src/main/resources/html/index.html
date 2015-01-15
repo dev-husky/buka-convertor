@@ -2,18 +2,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>电器街上的书店</title>
+<title>{title}</title>
 <link href="res/css/main.css" rel="stylesheet">
 <script type="text/javascript"	src="res/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"	src="res/js/page.js"></script>
+<script type="text/javascript"	src="res/js/index.js"></script>
 </head>
 <body>
 
-	<iframe id="pic-container" class="pic-container" src="pics/196608/chap.html">
-	</iframe>
-
-	<div id="menu" class="menu hide">
-	
+	<div id="mainContainer" class="main-container">
+		<a href="javascript:showPicBrowser(0);">chap1</a>
+		<a href="javascript:showPicBrowser(1);">chap2</a>
 	</div>
 
+	<div id="picBrowser" class="pic-browser">
+		<div id="pic" class="pic">
+			<img id="picImg" />
+			<img id="picImg2" />
+			<img id="picImg3" />
+			<div class="picBackground"></div>
+		</div>
+	
+		<div id="prevButton" class="pic-control-button prev-button"></div>
+		<div id="menuButton" class="pic-control-button menu-button"></div>
+		<div id="nextButton" class="pic-control-button next-button"></div>
+	</div>
+	
 </body>
 </html>-

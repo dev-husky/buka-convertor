@@ -2,16 +2,14 @@ package asia.laevatein.buka.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 
+import asia.laevatein.buka.model.ChapOrder;
+import asia.laevatein.buka.model.ChapOrder.Chap;
 import asia.laevatein.buka.util.BukaUtil;
-import asia.laevatein.buka.util.ChapOrder;
-import asia.laevatein.buka.util.ChapOrder.Chap;
 import asia.laevatein.buka.util.Config;
 import asia.laevatein.buka.util.Config.Key;
 import asia.laevatein.buka.util.FileUtil;
-import asia.laevatein.buka.util.HtmlUtil;
 import asia.laevatein.buka.util.Log;
 
 import com.google.gson.Gson;
@@ -55,7 +53,10 @@ public class BukaConvertService {
 			chapDir.mkdirs();
 			BukaUtil.convert(chap, new File(Config.get(Key.INPUT_DIR_PATH)), chapDir);
 		}
-		HtmlUtil.generateHtml(outputDir, bukaChapOrder);
+		//HtmlUtil.generateHtml(outputDir, bukaChapOrder);
+		
+		HtmlService htmlService = new HtmlService(outputDir, bukaChapOrder);
+		htmlService.generateHtml();
 		Log.info("Converting [" + bukaChapOrder.getName() + "] finished");
 	}
 	

@@ -6,19 +6,33 @@ body {
 	margin: 0;
 }
 
-.pic {
-	padding-top: 10px;
-}
-.pic > img {
-	/* border: 1px solid #000000; */
+.main-container {
+	width: 1080px;
 	margin: 0 auto;
-	height: 960px;
+}
+
+/* .pic {
+	padding-top: 10px;
+	margin: 0 auto;
+	width: 820px;
+} */
+.pic > img {
+	position: absolute;
 	display: block;
+	z-index: -1;
+}
+.picBackground {
+	position: absolute;
+	background-color: #000000;
+	left: 0;
+	top: 0;
+	z-index: 0;
 }
 .pic-control-button {
 	display: inline-block;
 	position: absolute;
 	top: 0;
+	z-index: 2;
 }
 .prev-button {
 	left: 0;

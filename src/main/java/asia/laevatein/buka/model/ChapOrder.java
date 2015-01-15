@@ -1,4 +1,4 @@
-package asia.laevatein.buka.util;
+package asia.laevatein.buka.model;
 
 import java.util.List;
 
