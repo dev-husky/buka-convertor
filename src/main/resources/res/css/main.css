@@ -11,12 +11,7 @@ body {
 	margin: 0 auto;
 }
 
-/* .pic {
-	padding-top: 10px;
-	margin: 0 auto;
-	width: 820px;
-} */
-.pic > img {
+.pic {
 	position: absolute;
 	display: block;
 	z-index: -1;

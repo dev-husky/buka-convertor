@@ -18,18 +18,30 @@ public class PageIndex {
 	};
 	
 	private String cid;
+	private String title;
 	private List<String> picNames;
 
 	public PageIndex(Chap chap, File chapDir) {
 		cid = chap.getCid();
+		if (chap.getTitle() != null && chap.getTitle().length() > 0) {
+			title = chap.getTitle();
+		} else {
+			switch (chap.getType()) {
+			case Chap.TYPE_EPISODE:
+				title = "第 " + chap.getIdx() + " 话";
+				break;
+			case Chap.TYPE_CHAPTER:
+				title = "第 " + chap.getIdx() + " 卷";
+				break;
+			case Chap.TYPE_LEGEND:
+				title = "番外 " + chap.getIdx() + " 话";
+				break;
+			}
+		}
 		picNames = new ArrayList<String>();
 		List<File> pics = new ArrayList<File>(FileUtil.listFiles(chapDir, new String[]{"jpg", "png"}, false));
 		Collections.sort(pics, PIC_ORDER_COMPARATOR);
 		for (File pic : pics) {
-			if (pic.getName().endsWith(".dat")) {
-				pic.delete();
-				continue;
-			}
 			picNames.add(pic.getName());
 		}
 	}
@@ -40,6 +52,14 @@ public class PageIndex {
 
 	public void setCid(String cid) {
 		this.cid = cid;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public List<String> getPicNames() {

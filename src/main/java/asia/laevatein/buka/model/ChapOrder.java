@@ -41,6 +41,10 @@ public class ChapOrder {
 	}
 
 	public static class Chap implements Comparable<Chap> {
+		public static final int TYPE_EPISODE = 0;
+		public static final int TYPE_CHAPTER = 1;
+		public static final int TYPE_LEGEND = 2;
+		
 		private String cid;
 		private int idx;
 		private int type;

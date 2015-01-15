@@ -24,10 +24,10 @@ $(function() {
 	$(window).resize(function() {
 		windowHeight = $(window).height();
 		windowWidth = $(window).width();
+		resizeBrowser();
 		resizePic(currImg);
 		resizePic(nextImg);
 		resizePic(prevImg);
-		resizeBrowser();
 	});
 	
 });
@@ -39,30 +39,32 @@ function showMainContainer() {
 }
 
 function showPicBrowser(chap) {
-	
+	$("body").css("background-color", "#000000");
 	resizeBrowser();
-	currImgChap = chap;
-	currImgPage = 0;
 	$("#" + currImg).load(function() {
 		resizePic(currImg);
 		$("#" + currImg).css("z-index", "1");
+		
+		
+		$("#picImg").load(function() {
+			resizePic("picImg");
+		});
+		$("#picImg2").load(function() {
+			resizePic("picImg2");
+		});
+		$("#picImg3").load(function() {
+			resizePic("picImg3");
+		});
+		
+		setPrevImg();
+		setNextImg();
 	});
+	currImgChap = chap;
+	currImgPage = 0;
 	setCurrImg();
+	
 	$("#mainContainer").hide();
 	$("#picBrowser").show();
-	
-	$("#picImg").load(function() {
-		resizePic("picImg");
-	});
-	$("#picImg2").load(function() {
-		resizePic("picImg2");
-	});
-	$("#picImg3").load(function() {
-		resizePic("picImg3");
-	});
-	
-	setPrevImg();
-	setNextImg();
 	
 }
 
@@ -202,4 +204,5 @@ function resizePic(imgId) {
 function resizeBrowser() {
 	$(".picBackground").css({"width":windowWidth + "px", "height":windowHeight + "px"});
 	$(".pic-control-button").css("height", windowHeight + "px");
+	$("img.pic").css({"width":windowWidth + "px", "height":windowHeight + "px"});
 }
