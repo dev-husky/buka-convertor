@@ -69,5 +69,18 @@ public class PageIndex {
 	public void setPicNames(List<String> picNames) {
 		this.picNames = picNames;
 	}
-
+	@Override
+	public boolean equals(Object o){
+		if (o != null && o instanceof PageIndex) {
+			if (this.cid != null) {
+				return this.cid.equals(((PageIndex) o).getCid());
+			}
+			return ((PageIndex) o).getCid() == null;
+		}
+		return false;
+	}
+	@Override
+	public int hashCode(){
+		return this.cid.hashCode();
+	}
 }

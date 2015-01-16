@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import asia.laevatein.buka.model.ChapOrder;
 import asia.laevatein.buka.model.ChapOrder.Chap;
@@ -25,6 +27,7 @@ public class HtmlService {
 	private File jsDir;
 	
 	private ChapOrder chapOrder;
+	private List<PageIndex> pageIndexList;
 	
 	public HtmlService(File baseDir, ChapOrder chapOrder) {
 		this.chapOrder = chapOrder;
@@ -33,6 +36,8 @@ public class HtmlService {
 		this.resDir = new File(baseDir, "res");
 		this.cssDir = new File(resDir, "css");
 		this.jsDir = new File(resDir, "js");
+		this.pageIndexList = new ArrayList<PageIndex>();
+		
 		FileUtil.checkDir(baseDir, false);
 		FileUtil.checkDir(picDir, false);
 		FileUtil.checkDir(resDir, true);
@@ -47,14 +52,14 @@ public class HtmlService {
 	}
 	
 	private void generatePageIndex() throws IOException {
-		List<PageIndex> pageIndexList = new ArrayList<PageIndex>();
 		List<Chap> chaps = chapOrder.getLinks();
-		
+		pageIndexList.clear();
 		Collections.reverse(chaps);
 		for (Chap chap : chaps) {
 			File chapDir = new File(picDir, chap.getCid());
 			FileUtil.checkDir(chapDir, false);
 			pageIndexList.add(new PageIndex(chap, chapDir));
+			chap.setPageIndex(pageIndexList.size() - 1);
 		}
 		
 		Gson gson = new Gson();

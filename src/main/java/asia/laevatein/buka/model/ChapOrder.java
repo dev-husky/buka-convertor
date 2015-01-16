@@ -49,6 +49,9 @@ public class ChapOrder {
 		private int idx;
 		private int type;
 		private String title;
+		
+		private int pageIndex;
+		
 		public String getCid() {
 			return cid;
 		}
@@ -73,6 +76,12 @@ public class ChapOrder {
 		}
 		public void setTitle(String title) {
 			this.title = title;
+		}
+		public int getPageIndex() {
+			return pageIndex;
+		}
+		public void setPageIndex(int pageIndex) {
+			this.pageIndex = pageIndex;
 		}
 		@Override
 		public boolean equals(Object o) {
