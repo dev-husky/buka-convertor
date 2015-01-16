@@ -7,6 +7,7 @@ public class ChapOrder {
 	private String logo;
 	private String author;
 	private String lastuptimeex;
+	private String intro;
 	private List<Chap> links;
 	
 	public String getName() {
@@ -38,6 +39,12 @@ public class ChapOrder {
 	}
 	public void setLastuptimeex(String lastuptimeex) {
 		this.lastuptimeex = lastuptimeex;
+	}
+	public String getIntro() {
+		return intro;
+	}
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
 
 	public static class Chap implements Comparable<Chap> {

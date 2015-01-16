@@ -66,4 +66,8 @@ public class FileUtil extends FileUtils{
 		return IOUtils.toString(Main.class.getResourceAsStream(resource), "UTF-8");
 	}
 	
+	public static byte[] readResourceFileToByteArray(String resource) throws IOException {
+		return IOUtils.toByteArray(Main.class.getResourceAsStream(resource));
+	}
+	
 }

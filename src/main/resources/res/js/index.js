@@ -15,6 +15,8 @@ var windowWidth = $(window).width();
 
 
 $(function() {
+	init();
+	
 	showMainContainer();
 	
 	$("#prevButton").click(prev);
@@ -32,14 +34,24 @@ $(function() {
 	
 });
 
+function init() {
+	$("title").append(chapOrder.name);
+	$(".cover").attr("src", chapOrder.logo);
+	$(".name").append(chapOrder.name);
+	$(".author").append("作　　者：" + chapOrder.author);
+	$(".last-updated").append("最后更新：" + chapOrder.lastuptimeex);
+	$(".intro").append("简　　介：" + chapOrder.intro);
+}
+
 function showMainContainer() {
-	$("body").css("background-color", "#ffffff");
+	//$("body").css("background-color", "#ffffff");
+	resizeBrowser();
 	$("#picBrowser").hide();
 	$("#mainContainer").show();
 }
 
 function showPicBrowser(chap) {
-	$("body").css("background-color", "#000000");
+	//$("body").css("background-color", "#000000");
 	resizeBrowser();
 	$("#" + currImg).load(function() {
 		resizePic(currImg);
@@ -202,6 +214,11 @@ function resizePic(imgId) {
 }
 
 function resizeBrowser() {
+	if ($("#mainContainer").height() < windowHeight) {
+		$("#mainContainer").css("height", windowHeight + "px");
+	}
+	$(".info-right").css("width", ($(".info").width() - $(".info-left").width()) + "px");
+		
 	$(".picBackground").css({"width":windowWidth + "px", "height":windowHeight + "px"});
 	$(".pic-control-button").css("height", windowHeight + "px");
 	$("img.pic").css({"width":windowWidth + "px", "height":windowHeight + "px"});

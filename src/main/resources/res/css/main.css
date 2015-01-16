@@ -1,15 +1,60 @@
 @CHARSET "UTF-8";
 
 body {
-	font-family: Youyuan, Arial, Helvetica, sans-serif, 微软雅黑;
-	background: none repeat scroll 0% 0% #000000;
+	font-family: 微软雅黑, Youyuan, Arial, Helvetica, sans-serif;
 	margin: 0;
+	background-image: url("../img/bg.png");
 }
 
 .main-container {
-	width: 80%;
+	width: 60%;
 	margin: 0 auto;
+	min-width: 500px;
+	border-left: 1px solid #a7a7a7;
+	border-right: 1px solid #a7a7a7;
+	background-color: #eeeeee;
 }
+
+.info {
+	width: 100%;
+	min-width: 500px;
+	min-height: 180px;
+}
+.info-left {
+	width: 140px;
+	height: 180px;
+	float: left;
+}
+.info-right {
+	display: table-cell;
+}
+.info-right > .name,
+.info-right > .author,
+.info-right > .last-updated,
+.info-right > .intro {
+	margin: 0px 10px;
+	font-size: 14px;
+	color: #a7a7a7;
+	word-wrap: break-word;
+}
+.info-right > .name {
+	margin: 20px 10px 10px 10px;
+	font-size: 20px;
+	color: #5a5a5a;
+}
+.info-right > .intro {
+	margin-bottom: 10px;
+}
+.cover {
+	margin: 10px;
+	width: 120px;
+	height: 160px;
+}
+.seperator {
+	margin: 0 5px;
+	border-top: 1px solid #a7a7a7;
+}
+
 
 .pic {
 	position: absolute;
