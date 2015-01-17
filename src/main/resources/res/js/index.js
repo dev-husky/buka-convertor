@@ -17,8 +17,6 @@ var windowWidth = $(window).width();
 $(function() {
 	init();
 	
-	showMainContainer();
-	
 	$("#prevButton").click(prev);
 	$("#menuButton").click(menu);
 	$("#nextButton").click(next);
@@ -32,6 +30,7 @@ $(function() {
 		resizePic(prevImg);
 	});
 	
+	showMainContainer();
 });
 
 function init() {
@@ -41,6 +40,30 @@ function init() {
 	$(".author").append("作　　者：" + chapOrder.author);
 	$(".last-updated").append("最后更新：" + chapOrder.lastuptimeex);
 	$(".intro").append("简　　介：" + chapOrder.intro);
+	
+	if (chapOrder.episodeCount > 0) {
+		$(".episode").append("<div class=\"index-tab\">连载（话）</div>")
+	}
+	if (chapOrder.chapterCount > 0) {
+		$(".chapter").append("<div class=\"index-tab\">单行本（卷）</div>")
+	}
+	if (chapOrder.legendCount > 0) {
+		$(".legend").append("<div class=\"index-tab\">番外篇</div>")
+	}
+	for (var i in chapOrder.links) {
+		var browserEntryHtml = "<div class=\"browser-entry\">"
+			+ "<a href=\"javascript:showPicBrowser(" + chapOrder.links[i].pageIndex  + ");\">" + chapOrder.links[i].title
+			+ "</a></div>";
+		if (chapOrder.links[i].type == 0) {
+			$(".episode").append(browserEntryHtml);
+		}
+		if (chapOrder.links[i].type == 1) {
+			$(".chapter").append(browserEntryHtml);
+		}
+		if (chapOrder.links[i].type == 2) {
+			$(".legend").append(browserEntryHtml);
+		}
+	}
 }
 
 function showMainContainer() {
@@ -56,7 +79,6 @@ function showPicBrowser(chap) {
 	$("#" + currImg).load(function() {
 		resizePic(currImg);
 		$("#" + currImg).css("z-index", "1");
-		
 		
 		$("#picImg").load(function() {
 			resizePic("picImg");
@@ -218,8 +240,7 @@ function resizeBrowser() {
 		$("#mainContainer").css("height", windowHeight + "px");
 	}
 	$(".info-right").css("width", ($(".info").width() - $(".info-left").width()) + "px");
-		
 	$(".picBackground").css({"width":windowWidth + "px", "height":windowHeight + "px"});
 	$(".pic-control-button").css("height", windowHeight + "px");
-	$("img.pic").css({"width":windowWidth + "px", "height":windowHeight + "px"});
+	$(".pic").css({"width":windowWidth + "px", "height":windowHeight + "px"});
 }

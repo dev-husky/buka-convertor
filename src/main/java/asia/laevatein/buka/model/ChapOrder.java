@@ -8,7 +8,13 @@ public class ChapOrder {
 	private String author;
 	private String lastuptimeex;
 	private String intro;
+	
+	private int episodeCount;
+	private int chapterCount;
+	private int legendCount;
+	
 	private List<Chap> links;
+	
 	
 	public String getName() {
 		return name;
@@ -45,6 +51,24 @@ public class ChapOrder {
 	}
 	public void setIntro(String intro) {
 		this.intro = intro;
+	}
+	public int getEpisodeCount() {
+		return episodeCount;
+	}
+	public void setEpisodeCount(int episodeCount) {
+		this.episodeCount = episodeCount;
+	}
+	public int getChapterCount() {
+		return chapterCount;
+	}
+	public void setChapterCount(int chapterCount) {
+		this.chapterCount = chapterCount;
+	}
+	public int getLegendCount() {
+		return legendCount;
+	}
+	public void setLegendCount(int legendCount) {
+		this.legendCount = legendCount;
 	}
 
 	public static class Chap implements Comparable<Chap> {

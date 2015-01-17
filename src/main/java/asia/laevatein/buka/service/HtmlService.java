@@ -65,7 +65,19 @@ public class HtmlService {
 			FileUtil.checkDir(chapDir, false);
 			pageIndexList.add(new PageIndex(chap, chapDir));
 			chap.setPageIndex(pageIndexList.size() - 1);
+			switch (chap.getType()) {
+			case Chap.TYPE_EPISODE:
+				chapOrder.setEpisodeCount(chapOrder.getEpisodeCount() + 1);
+				break;
+			case Chap.TYPE_CHAPTER:
+				chapOrder.setChapterCount(chapOrder.getChapterCount() + 1);
+				break;
+			case Chap.TYPE_LEGEND:
+				chapOrder.setLegendCount(chapOrder.getLegendCount() + 1);
+				break;
+			}
 		}
+		Collections.sort(chaps);
 		
 		Gson gson = new Gson();
 		String pageIndexJsStr = FileUtil.readResourceFileAsString("/res/js/param.js");
@@ -74,7 +86,6 @@ public class HtmlService {
 		File pageIndexJsFile = new File(jsDir, "param.js");
 		FileUtil.write(pageIndexJsFile, pageIndexJsStr);
 		
-		Collections.sort(chaps);
 	}
 	
 	private void generateIndexHtml() throws IOException {

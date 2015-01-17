@@ -26,17 +26,19 @@ public class PageIndex {
 		if (chap.getTitle() != null && chap.getTitle().length() > 0) {
 			title = chap.getTitle();
 		} else {
-			switch (chap.getType()) {
-			case Chap.TYPE_EPISODE:
-				title = "第 " + chap.getIdx() + " 话";
-				break;
-			case Chap.TYPE_CHAPTER:
-				title = "第 " + chap.getIdx() + " 卷";
-				break;
-			case Chap.TYPE_LEGEND:
-				title = "番外 " + chap.getIdx() + " 话";
-				break;
-			}
+//			switch (chap.getType()) {
+//			case Chap.TYPE_EPISODE:
+//				title = "第 " + chap.getIdx() + " 话";
+//				break;
+//			case Chap.TYPE_CHAPTER:
+//				title = "第 " + chap.getIdx() + " 卷";
+//				break;
+//			case Chap.TYPE_LEGEND:
+//				title = "番外 " + chap.getIdx() + " 话";
+//				break;
+//			}
+			title = String.valueOf(chap.getIdx());
+			chap.setTitle(title);
 		}
 		picNames = new ArrayList<String>();
 		List<File> pics = new ArrayList<File>(FileUtil.listFiles(chapDir, new String[]{"jpg", "png"}, false));
