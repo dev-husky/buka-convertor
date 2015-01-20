@@ -84,29 +84,29 @@ public class HtmlService {
 		pageIndexJsStr = pageIndexJsStr.replace(PARAM_JS_PAGE_INDEX,  gson.toJson(pageIndexList));
 		pageIndexJsStr = pageIndexJsStr.replace(PARAM_JS_CHAP_ORDER,  gson.toJson(chapOrder));
 		File pageIndexJsFile = new File(jsDir, "param.js");
-		FileUtil.write(pageIndexJsFile, pageIndexJsStr);
+		FileUtil.write(pageIndexJsFile, pageIndexJsStr, "UTF-8");
 		
 	}
 	
 	private void generateIndexHtml() throws IOException {
 		String indexHtmlStr = FileUtil.readResourceFileAsString("/html/index.html");
 		File indexHtmlFile = new File(baseDir, "index.html");
-		FileUtil.write(indexHtmlFile, indexHtmlStr);
+		FileUtil.write(indexHtmlFile, indexHtmlStr, "UTF-8");
 	}
 	
 	private void generateRes() throws IOException {
 		// js file
 		String jqueryFileStr = FileUtil.readResourceFileAsString("/res/js/jquery-1.10.2.min.js");
 		File jqueryFile = new File(jsDir, "jquery-1.10.2.min.js");
-		FileUtil.write(jqueryFile, jqueryFileStr);
+		FileUtil.write(jqueryFile, jqueryFileStr, "UTF-8");
 		String indexJsStr = FileUtil.readResourceFileAsString("/res/js/index.js");
 		File indexJsFile = new File(jsDir, "index.js");
-		FileUtil.write(indexJsFile, indexJsStr);
+		FileUtil.write(indexJsFile, indexJsStr, "UTF-8");
 		
 		// css file
 		String mainCSSFileStr = FileUtil.readResourceFileAsString("/res/css/main.css");
 		File mainCSSFile = new File(cssDir, "main.css");
-		FileUtil.write(mainCSSFile, mainCSSFileStr);
+		FileUtil.write(mainCSSFile, mainCSSFileStr, "UTF-8");
 		
 		// img file
 		byte[] bgFileByte = FileUtil.readResourceFileToByteArray("/res/img/bg.png");
