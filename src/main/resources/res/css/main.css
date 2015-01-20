@@ -65,7 +65,7 @@ body {
 	display: inline-block;
 	width: 25%;
 	margin: 0;
-	height: 30px;
+	height: 36px;
 }
 .browser-entry > a {
 	display: block;
@@ -74,17 +74,17 @@ body {
 	background-color: #4c9ed9;
 	color: #ffffff;
 	text-decoration: none;
-	height: 20px;
+	height: 26px;
 	text-align: center;
+	line-height: 26px;
 	font-size: 12px;
-	line-height: 20px;
 }
 .pic {
 	position: absolute;
 	display: block;
 	z-index: -1;
 }
-.picBackground {
+.pic-background {
 	position: absolute;
 	background-color: #000000;
 	left: 0;
@@ -99,16 +99,48 @@ body {
 }
 .prev-button {
 	left: 0;
-	width: 40%;
-	/* background-color: #121212; */
+	width: 35%;
+	cursor: url('http://img.t.sinajs.cn/t6/style/images/common/pic_prev.cur'), auto;
 }
 .menu-button {
-	left: 40%;
-	width: 20%;
-	/* background-color: #d1d1d1; */
+	left: 35%;
+	width: 30%;
 }
 .next-button {
-	left: 60%;
-	width: 40%;
-	/* background-color: #555555; */
+	left: 65%;
+	width: 30%;
+	cursor: url('http://img.t.sinajs.cn/t6/style/images/common/pic_next.cur'), auto;
+}
+.menu-background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	background-color:#000000; 
+	opacity:0.5;
+}
+.menu-dialog {
+	position: absolute;
+	width: 200px;
+	height: 204px;
+	z-index: 4;
+	background-color: #000000;
+	border: 1px solid #eeeeee;
+	box-shadow: 0px 0px 10px #eeeeee;
+	opacity: 0.8;
+}
+.curr-chap-info,
+.menu-dialog-button {
+	color: #eeeeee;
+	margin: 20px;
+	height: 26px;
+	text-align: center;
+	line-height: 26px;
+}
+.menu-dialog-button {
+	display: block;
+	border: 1px solid #eeeeee;
+	box-shadow: 0px 0px 10px #eeeeee;
+	text-decoration: none;
+	font-size: 12px;
 }

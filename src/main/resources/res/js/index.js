@@ -18,8 +18,13 @@ $(function() {
 	init();
 	
 	$("#prevButton").click(prev);
-	$("#menuButton").click(menu);
 	$("#nextButton").click(next);
+	$("#menuButton").click(showMenu);
+	$("#menuBackground").click(hideMenu);
+	
+	//	$("#menuDialog").click(function(e) {
+//		e.stopPropagation();
+//	});
 	
 	$(window).resize(function() {
 		windowHeight = $(window).height();
@@ -68,14 +73,24 @@ function init() {
 
 function showMainContainer() {
 	//$("body").css("background-color", "#ffffff");
-	resizeBrowser();
 	$("#picBrowser").hide();
 	$("#mainContainer").show();
+	resizeBrowser();
 }
 
 function showPicBrowser(chap) {
-	//$("body").css("background-color", "#000000");
+	currImg = "picImg";
+	prevImg = "picImg2";
+	nextImg = "picImg3";
+	$("#" + currImg).css({"z-index":"-1", "width":"100px", "height":"100px"});
+	$("#" + prevImg).css({"z-index":"-1", "width":"100px", "height":"100px"});
+	$("#" + nextImg).css({"z-index":"-1", "width":"100px", "height":"100px"});
+	
+	$("#mainContainer").hide();
+	hideMenu();
+	$("#picBrowser").show();
 	resizeBrowser();
+	
 	$("#" + currImg).load(function() {
 		resizePic(currImg);
 		$("#" + currImg).css("z-index", "1");
@@ -97,8 +112,7 @@ function showPicBrowser(chap) {
 	currImgPage = 0;
 	setCurrImg();
 	
-	$("#mainContainer").hide();
-	$("#picBrowser").show();
+	
 	
 }
 
@@ -204,9 +218,64 @@ function next() {
 	}
 }
 
-function menu() {
-	
+function prevChap() {
+	if (currImgChap > 0) {
+		currImgChap = currImgChap - 1;
+		// 重新分配img容器
+		var tmp = prevImg;
+		prevImg = currImg;
+		currImg = nextImg;
+		nextImg = tmp;
+		showPicBrowser(currImgChap);
+	} else {
+		alert("已经是第一章啦！");
+	}
 }
+
+function nextChap() {
+	if (currImgChap < pageIndex.length - 1) {
+		currImgChap = currImgChap + 1;
+		// 重新分配img容器
+		var tmp = nextImg;
+		nextImg = currImg;
+		currImg = prevImg;
+		prevImg = tmp;
+		showPicBrowser(currImgChap++);
+	} else {
+		alert("已经是最后一章啦！");
+	}
+}
+
+function back() {
+	showMainContainer();
+}
+
+function showMenu() {
+	$("#menuBackground").show();
+	$("#menuDialog").show();
+	resizeBrowser();
+	$("#currChapInfo").empty();
+	var chapInfo = getChapInfo(pageIndex[currImgChap].cid);
+	var chapInfoStr;
+	if (chapInfo.title == chapInfo.idx.toString()) {
+		if (chapInfo.type == 0) {
+			chapInfoStr = "第 " + chapInfo.title + " 话";
+		} else if (chapInfo.type == 1) {
+			chapInfoStr = "第 " + chapInfo.title + " 卷";
+		} else if (chapInfo.type == 2) {
+			chapInfoStr = "番外 " + chapInfo.title + " 话";
+		}
+	} else {
+		chapInfoStr = chapInfo.title;
+	}
+	chapInfoStr += "　" + (currImgPage + 1) + "/" + pageIndex[currImgChap].picNames.length
+	$("#currChapInfo").append(chapInfoStr);
+}
+function hideMenu() {
+	$("#menuDialog").hide();
+	$("#menuBackground").hide();
+}
+
 
 function resizePic(imgId) {
 	var img = $("#" + imgId);
@@ -240,7 +309,20 @@ function resizeBrowser() {
 		$("#mainContainer").css("height", windowHeight + "px");
 	}
 	$(".info-right").css("width", ($(".info").width() - $(".info-left").width()) + "px");
-	$(".picBackground").css({"width":windowWidth + "px", "height":windowHeight + "px"});
+	$(".pic-background").css({"width":windowWidth + "px", "height":windowHeight + "px"});
 	$(".pic-control-button").css("height", windowHeight + "px");
-	$(".pic").css({"width":windowWidth + "px", "height":windowHeight + "px"});
+	//$(".pic").css({"width":windowWidth + "px", "height":windowHeight + "px"});
+	$(".menu-background").css({"width":windowWidth + "px", "height":windowHeight + "px"});
+	$(".menu-dialog").css({
+		"margin-left":(windowWidth - $(".menu-dialog").width()) / 2 + "px", 
+		"margin-top":(windowHeight - $(".menu-dialog").height()) / 2 + "px"
+	});
+}
+
+function getChapInfo(cid) {
+	for (var i in chapOrder.links) {
+		if (chapOrder.links[i].cid == cid) {
+			return chapOrder.links[i];
+		}
+	}
 }
