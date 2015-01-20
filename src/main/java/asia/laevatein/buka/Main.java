@@ -5,12 +5,16 @@ import java.io.IOException;
 
 import asia.laevatein.buka.service.BukaConvertService;
 import asia.laevatein.buka.util.Config;
+import asia.laevatein.buka.util.Config.Key;
 import asia.laevatein.buka.util.FileUtil;
 import asia.laevatein.buka.util.Log;
-import asia.laevatein.buka.util.Config.Key;
 
 public class Main {
 
+	public static final String PARAM_FLAG_CHAPORDER_DAT = "-c";
+	public static final String PARAM_FLAG_BUKA_EXE = "-b";
+	public static final String PARAM_FLAG_OUTPUT_DIR = "-o";
+	
 	public static void main(String[] args) {
 		try {
 			parseArgs(args);
@@ -23,15 +27,34 @@ public class Main {
 	}
 
 	public static void parseArgs(String[] args) {
-		Config.set(Key.INPUT_DIR_PATH, "E:\\Private\\ibuka\\resource\\10778");
-//		Config.set(Key.BUKA_PARSER_DIR_PATH, "D:\\Workspaces\\github\\buka-convertor\\lib\\buka_2.2");
-		Config.set(Key.BUKA_PARSER_EXE_PATH, "D:\\Workspaces\\github\\buka-convertor\\lib\\buka_2.2\\buka.exe");
-		Config.set(Key.BUKA_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\resource\\10778\\chaporder.dat");
-
-		Config.set(Key.OUTPUT_DIR_PATH, "E:\\Private\\ibuka");
-//		Config.set(Key.OUTPUT_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\2187_output\\chaporder.dat");
-//		Config.set(Key.BUKA_OUTPUT_DIR_PATH, "E:\\Private\\ibuka\\2187_output\\buka_output");
-		
+		if (args == null || args.length < 6) {
+			throw new RuntimeException("Missing parameters.");
+		}
+		for (int i = 0; i < args.length; i++) {
+			if (PARAM_FLAG_CHAPORDER_DAT.equals(args[i])) {
+				if (i + 1 > args.length - 1) {
+					throw new RuntimeException("Invalid parameters.");
+				}
+				Config.set(Key.BUKA_CHAPORDER_FILE_PATH, args[++i]);
+			} else if (PARAM_FLAG_BUKA_EXE.equals(args[i])) {
+				if (i + 1 > args.length - 1) {
+					throw new RuntimeException("Invalid parameters.");
+				}
+				Config.set(Key.BUKA_PARSER_EXE_PATH, args[++i]);
+			} else if (PARAM_FLAG_OUTPUT_DIR.equals(args[i])) {
+				if (i + 1 > args.length - 1) {
+					throw new RuntimeException("Invalid parameters.");
+				}
+				Config.set(Key.OUTPUT_DIR_PATH, args[++i]);
+			}
+		}
+		File chapOrderFile = new File(Config.get(Key.BUKA_CHAPORDER_FILE_PATH));
+		Config.set(Key.INPUT_DIR_PATH, chapOrderFile.getParentFile().getAbsolutePath());
+			
+//		Config.set(Key.INPUT_DIR_PATH, "E:\\Private\\ibuka\\resource\\10778");
+//		Config.set(Key.BUKA_PARSER_EXE_PATH, "D:\\Workspaces\\github\\buka-convertor\\lib\\buka_2.2\\buka.exe");
+//		Config.set(Key.BUKA_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\resource\\10778\\chaporder.dat");
+//		Config.set(Key.OUTPUT_DIR_PATH, "E:\\Private\\ibuka");
 	}
 	
 	public static void checkConfig() throws IOException {
@@ -43,17 +66,9 @@ public class Main {
 		File outputDir = new File(Config.get(Key.OUTPUT_DIR_PATH));
 		FileUtil.checkDir(outputDir, true);
 
-//		Log.info(Key.BUKA_PARSER_DIR_PATH.toString());
-//		File bukaParserDir = new File(Config.get(Key.BUKA_PARSER_DIR_PATH));
-//		FileUtil.checkDir(bukaParserDir, false);
-		
 		Log.info(Key.BUKA_PARSER_EXE_PATH.toString());
 		File bukaParserExe = new File(Config.get(Key.BUKA_PARSER_EXE_PATH));
 		FileUtil.checkFile(bukaParserExe, false);
-		
-//		Log.info(Key.BUKA_OUTPUT_DIR_PATH.toString());
-//		File bukaOutputDir = new File(Config.get(Key.BUKA_OUTPUT_DIR_PATH));
-//		FileUtil.checkDir(bukaOutputDir, true);
 		
 		Log.info(Key.BUKA_CHAPORDER_FILE_PATH.toString());
 		File chapOrderFile = new File(Config.get(Key.BUKA_CHAPORDER_FILE_PATH));

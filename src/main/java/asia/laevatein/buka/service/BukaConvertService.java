@@ -24,19 +24,6 @@ public class BukaConvertService {
 		Collections.sort(bukaChapOrder.getLinks());
 	}
 	
-//	public void loadingOutputChapOrderDat() throws IOException {
-//		File outputChapOrderFile = new File(Config.get(Key.OUTPUT_CHAPORDER_FILE_PATH));
-//		FileUtil.checkFile(outputChapOrderFile, true);
-//		String outputChapOrderStr = FileUtil.readFileAsString(outputChapOrderFile);
-//		if (outputChapOrderStr.length() > 0) {
-//			outputChapOrder = new Gson().fromJson(outputChapOrderStr, ChapOrder.class);
-//		} else {
-//			outputChapOrder = new ChapOrder();
-//			outputChapOrder.setName(bukaChapOrder.getName());
-//			outputChapOrder.setLinks(new ArrayList<Chap>(0));
-//		}
-//	}
-	
 	public void execute() throws IOException  {
 		loadingBukaChapOrderDat();
 		Log.info("Start converting [" + bukaChapOrder.getName() + "] ...");
@@ -53,7 +40,6 @@ public class BukaConvertService {
 			chapDir.mkdirs();
 			BukaUtil.convert(chap, new File(Config.get(Key.INPUT_DIR_PATH)), chapDir);
 		}
-		//HtmlUtil.generateHtml(outputDir, bukaChapOrder);
 		
 		HtmlService htmlService = new HtmlService(outputDir, bukaChapOrder);
 		htmlService.generateHtml();
