@@ -13,6 +13,14 @@ var nextImg = "picImg3";
 var windowHeight = $(window).height();
 var windowWidth = $(window).width();
 
+var mode = 0;	// 0:目录（无光标）
+				// 1:目录（有光标）
+				// 2:图片浏览（无菜单）
+				// 3:图片浏览（有菜单无光标）
+				// 4:图片浏览（有菜单有光标）
+				// 5:有alert
+var menuItems = ["prevChapButton", "nextChapButton", "backButton", "closeMenuButton"];
+var focusedMenuItem = 0;
 
 $(function() {
 	init();
@@ -22,10 +30,6 @@ $(function() {
 	$("#menuButton").click(showMenu);
 	$("#menuBackground").click(hideMenu);
 	
-	//	$("#menuDialog").click(function(e) {
-//		e.stopPropagation();
-//	});
-	
 	$(window).resize(function() {
 		windowHeight = $(window).height();
 		windowWidth = $(window).width();
@@ -34,7 +38,9 @@ $(function() {
 		resizePic(nextImg);
 		resizePic(prevImg);
 	});
-	
+	$(document).keydown(function(event) {
+		keyDownProcessor(event.which);
+	});
 	showMainContainer();
 });
 
@@ -72,10 +78,10 @@ function init() {
 }
 
 function showMainContainer() {
-	//$("body").css("background-color", "#ffffff");
 	$("#picBrowser").hide();
 	$("#mainContainer").show();
 	resizeBrowser();
+	mode = 0;
 }
 
 function showPicBrowser(chap) {
@@ -90,6 +96,7 @@ function showPicBrowser(chap) {
 	hideMenu();
 	$("#picBrowser").show();
 	resizeBrowser();
+	mode = 2;
 	
 	$("#" + currImg).load(function() {
 		resizePic(currImg);
@@ -111,8 +118,6 @@ function showPicBrowser(chap) {
 	currImgChap = chap;
 	currImgPage = 0;
 	setCurrImg();
-	
-	
 	
 }
 
@@ -186,7 +191,7 @@ function prev() {
 		
 		setPrevImg();
 	} else {
-		alert("已经是第一页啦！");
+		alertInfo("已经是第一页啦！");
 	}
 }
 
@@ -214,7 +219,7 @@ function next() {
 		
 		setNextImg();
 	} else {
-		alert("已经是最后一页啦！");
+		alertInfo("已经是最后一页啦！");
 	}
 }
 
@@ -228,7 +233,7 @@ function prevChap() {
 		nextImg = tmp;
 		showPicBrowser(currImgChap);
 	} else {
-		alert("已经是第一章啦！");
+		alertInfo("已经是第一章啦！");
 	}
 }
 
@@ -242,7 +247,7 @@ function nextChap() {
 		prevImg = tmp;
 		showPicBrowser(currImgChap++);
 	} else {
-		alert("已经是最后一章啦！");
+		alertInfo("已经是最后一章啦！");
 	}
 }
 
@@ -254,6 +259,7 @@ function showMenu() {
 	$("#menuBackground").show();
 	$("#menuDialog").show();
 	resizeBrowser();
+	mode = 3;
 	$("#currChapInfo").empty();
 	var chapInfo = getChapInfo(pageIndex[currImgChap].cid);
 	var chapInfoStr;
@@ -274,6 +280,8 @@ function showMenu() {
 function hideMenu() {
 	$("#menuDialog").hide();
 	$("#menuBackground").hide();
+	mode = 2;
+	$("#" + menuItems[focusedMenuItem]).css({"box-shadow":"0px 0px 10px #eeeeee", "border-color":"#eeeeee", "color":"#eeeeee"});
 }
 
 
@@ -325,4 +333,65 @@ function getChapInfo(cid) {
 			return chapOrder.links[i];
 		}
 	}
+}
+function keyDownProcessor(key) {
+	if (mode == 0) {	// 0:目录（无光标）
+		// TODO
+	} else if (mode == 1) {	// 1:目录（有光标）
+		// TODO
+	} else if (mode == 2) {	// 2:图片浏览（无菜单）
+		if (key == 37) { // 左方向间
+			prev();
+		} else if (key == 39) { // 右方向键
+			next();
+		}else if (key == 27) { // esc
+			showMenu();
+		}
+	} else if (mode == 3) {	// 3:图片浏览（有菜单无光标）
+		var oldFocusedMenuItem = 0;
+		if (key == 38) { // 上方向键
+			mode = 4;
+			focusedMenuItem = 3;
+			focusFrom(oldFocusedMenuItem);
+		} else if (key == 40) { // 下方向键
+			mode = 4;
+			focusedMenuItem = 0;
+			focusFrom(oldFocusedMenuItem);
+		} else if (key == 27) { // esc
+			hideMenu();
+		}
+	} else if (mode == 4) { // 4:图片浏览（有菜单有光标）
+		var oldFocusedMenuItem = focusedMenuItem;
+		if (key == 38) { // 上方向键
+			focusedMenuItem = focusedMenuItem == 0 ? 3 : focusedMenuItem - 1;
+			focusFrom(oldFocusedMenuItem);
+		} else if (key == 40) { // 下方向键
+			focusedMenuItem = focusedMenuItem == 3 ? 0 : focusedMenuItem + 1;
+			focusFrom(oldFocusedMenuItem);
+		} else if (key == 27) { // esc
+			hideMenu();
+		} else if (key == 13) { // enter
+			//alert(menuItems[focusedMenuItem]);
+			if (focusedMenuItem == 0) {
+				prevChap();
+			} else if (focusedMenuItem == 1) {
+				nextChap();
+			} else if (focusedMenuItem == 2) {
+				back();
+			} else if (focusedMenuItem == 3) {
+				hideMenu();
+			} 
+		}
+	}
+}
+
+function focusFrom(oldFocusedMenuItem) {
+	$("#" + menuItems[oldFocusedMenuItem]).css({"box-shadow":"0px 0px 10px #eeeeee", "border-color":"#eeeeee", "color":"#eeeeee"});
+	$("#" + menuItems[focusedMenuItem]).css({"box-shadow":"0px 0px 10px #4c9ed9", "border-color":"#4c9ed9", "color":"#4c9ed9"});
+}
+function alertInfo(msg) {
+	var tmp = mode;
+	mode = 5;
+	alert(msg);
+	mode = tmp;
 }
