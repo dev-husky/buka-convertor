@@ -2,26 +2,14 @@ package asia.laevatein.buka.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Collection;
 
 import asia.laevatein.buka.model.ChapOrder.Chap;
 import asia.laevatein.buka.util.Config.Key;
 
 public class BukaUtil {
 
-	private static final String CMD = "{BUKA_PARSER_EXE_PATH} {BUKA_FILE} {BUKA_OUTPUT_CHAP_DIR_PATH}";
-	//private static final String INDEX_JS = "index[{CID}] = {CID_INDEX};";
-	//private static final String[] VIEW_FILE_EXT = new String[]{"view"};
-	//private static final String[] PIC_FILE_EXT = new String[]{"png", "jpg", "bmp"};
-//	private static final Comparator<File> PIC_ORDER_COMPARATOR = new Comparator<File>() {
-//		public int compare(File f1, File f2) {
-//			return f1.getName().compareTo(f2.getName());
-//		}
-//	};
-	
-	
-	public static boolean convert(Chap chap, File inputDir, File outputDir) throws IOException {
-		Log.info("Converting Chap: " + chap.getCid());
+	public static void convert(Chap chap, File inputDir, File outputDir) throws IOException {
 		File bukaResource = new File(inputDir, chap.getCid() + ".buka");
 		if (!bukaResource.exists()) {
 			// chap不是buka文件，可能是文件夹
@@ -31,58 +19,42 @@ public class BukaUtil {
 				throw new RuntimeException("Buka resource file not found");
 			}
 		}
-//		List<String> pageIndex = new ArrayList<String>();
-//		if (bukaResource.isDirectory()) {
-//			Log.info("Found resource directory: " + bukaResource.getAbsolutePath());
-//			List<File> pics = new ArrayList<File>(FileUtil.listFiles(bukaResource, VIEW_FILE_EXT, false));
-//			Collections.sort(pics, PIC_ORDER_COMPARATOR);
-//			for (File pic : pics) {
-//				File newFile = new File(outputDir, removeViewExt(pic.getName()));
-//				FileUtil.copyFile(pic, newFile);
-//				pageIndex.add(newFile.getName());
-//			}
-//			
-//		} else {
-			Log.info("Found resource : " + bukaResource.getAbsolutePath());
-			File bukaParserExe = new File(Config.get(Key.BUKA_PARSER_EXE_PATH));
-			String cmd = CMD.replace("{BUKA_PARSER_EXE_PATH}", bukaParserExe.getAbsolutePath())
-					.replace("{BUKA_FILE}", bukaResource.getAbsolutePath())
-					.replace("{BUKA_OUTPUT_CHAP_DIR_PATH}", outputDir.getAbsolutePath());
-			
-	        try {  
-	        	Process p = Runtime.getRuntime().exec(cmd);  
-	        	InputStream is = p.getErrorStream(); 
-	        	while (is.read() != -1) {
-	        	}
-	        } catch (IOException e) {  
-	          e.printStackTrace();  
-	        }
-//	        List<File> pics = new ArrayList<File>(FileUtil.listFiles(outputDir, null, false));
-//			Collections.sort(pics, PIC_ORDER_COMPARATOR);
-//			for (File pic : pics) {
-//				if (pic.getName().endsWith(".dat")) {
-//					pic.delete();
-//					continue;
-//				}
-//				pageIndex.add(pic.getName());
-//			}
-////		}
-//		HtmlUtil.generateChap(outputDir, pageIndex);
 		
+		Log.info("[Chap " + chap.getCid() + "] Found resource : " + bukaResource.getAbsolutePath());
+		File bukaParserExe = new File(Config.get(Key.BUKA_PARSER_EXE_PATH));
 		
-////		File bukaOutputDir = new File(Config.get(Key.BUKA_OUTPUT_DIR_PATH));
-////		File bukaOutputChapDir = new File(bukaOutputDir, chap.getCid());
+		File tmpDir = new File(outputDir, "tmp");
+		tmpDir.mkdirs();
 		
-//		cmd = cmd.replace("{BUKA_OUTPUT_CHAP_DIR_PATH}", bukaOutputChapDir.getAbsolutePath());
-//		
+		String[] cmd = new String[]{
+				bukaParserExe.getAbsolutePath(),
+				bukaResource.getAbsolutePath(),
+				tmpDir.getAbsolutePath()
+		};
+		Command command = new Command(cmd);
+		command.exec();
 		
-		return true;
+		Collection<File> pngFiles = FileUtil.listFiles(outputDir, new String[]{"png"}, true);
+		for (File pngFile : pngFiles) {
+			FileUtil.moveFileToDirectory(pngFile, outputDir, false);
+		}
+		for (File tmp : outputDir.listFiles()) {
+			if (tmp.isDirectory()) {
+				FileUtil.forceDelete(tmp);
+			}
+		}
+		Log.info("[Chap " + chap.getCid() + "] Got " + FileUtil.listFiles(outputDir, new String[]{"png"}, false).size() + " PNG files");
 	}
 	
-//	private static String removeViewExt(String oldFileName) {
-//		if (!oldFileName.endsWith("." + VIEW_FILE_EXT[0])) {
-//			throw new RuntimeException("Not a view file: " + oldFileName);
-//		}
-//		return oldFileName.substring(0, oldFileName.indexOf("." + VIEW_FILE_EXT[0]));
-//	}
+
+	public static void png2jpg(Chap chap, File outputDir) throws IOException {
+		File bukaPng2jpgExe = new File(Config.get(Key.BUKA_PNG2JPG_EXE_PATH));
+		String[] cmd = new String[] {
+				bukaPng2jpgExe.getAbsolutePath(),
+				outputDir.getAbsolutePath()
+		};
+		Command command = new Command(cmd);
+		command.exec();
+		Log.info("[Chap " + chap.getCid() + "] Got " + FileUtil.listFiles(outputDir, new String[]{"jpg"}, false).size() + " JPG files");
+	}
 }

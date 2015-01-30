@@ -19,6 +19,7 @@ public class Config {
 		public static final Key<String> INPUT_DIR_PATH = new Key<String>("INPUT_DIR_PATH", "input");
 		public static final Key<String> OUTPUT_DIR_PATH = new Key<String>("OUTPUT_DIR_PATH", "output");
 		public static final Key<String> BUKA_PARSER_EXE_PATH = new Key<String>("BUKA_PARSER_EXE_PATH", "buka.exe");
+		public static final Key<String> BUKA_PNG2JPG_EXE_PATH = new Key<String>("BUKA_PNG2JPG_EXE_PATH", "png2jpg.exe");
 		public static final Key<String> BUKA_CHAPORDER_FILE_PATH = new Key<String>("BUKA_CHAPORDER_FILE_PATH", "chaporder.dat");
 
 		private String name;

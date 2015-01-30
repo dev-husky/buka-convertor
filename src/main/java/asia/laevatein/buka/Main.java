@@ -12,7 +12,7 @@ import asia.laevatein.buka.util.Log;
 public class Main {
 
 	public static final String PARAM_FLAG_CHAPORDER_DAT = "-c";
-	public static final String PARAM_FLAG_BUKA_EXE = "-b";
+	public static final String PARAM_FLAG_BUKA_PARSER = "-b";
 	public static final String PARAM_FLAG_OUTPUT_DIR = "-o";
 	
 	public static void main(String[] args) {
@@ -35,12 +35,18 @@ public class Main {
 				if (i + 1 > args.length - 1) {
 					throw new RuntimeException("Invalid parameters.");
 				}
-				Config.set(Key.BUKA_CHAPORDER_FILE_PATH, args[++i]);
-			} else if (PARAM_FLAG_BUKA_EXE.equals(args[i])) {
+				File chapOrderFile = new File(args[++i]);
+				Config.set(Key.BUKA_CHAPORDER_FILE_PATH, chapOrderFile.getAbsolutePath());
+				Config.set(Key.INPUT_DIR_PATH, chapOrderFile.getParentFile().getAbsolutePath());
+			} else if (PARAM_FLAG_BUKA_PARSER.equals(args[i])) {
 				if (i + 1 > args.length - 1) {
 					throw new RuntimeException("Invalid parameters.");
 				}
-				Config.set(Key.BUKA_PARSER_EXE_PATH, args[++i]);
+				File bukaPaserDir = new File(args[++i]);
+				File bukaExe = new File(bukaPaserDir, "buka.exe");
+				File png2jpgExe = new File(bukaPaserDir, "png2jpg.exe");
+				Config.set(Key.BUKA_PARSER_EXE_PATH, bukaExe.getAbsolutePath());
+				Config.set(Key.BUKA_PNG2JPG_EXE_PATH, png2jpgExe.getAbsolutePath());
 			} else if (PARAM_FLAG_OUTPUT_DIR.equals(args[i])) {
 				if (i + 1 > args.length - 1) {
 					throw new RuntimeException("Invalid parameters.");
@@ -48,13 +54,7 @@ public class Main {
 				Config.set(Key.OUTPUT_DIR_PATH, args[++i]);
 			}
 		}
-		File chapOrderFile = new File(Config.get(Key.BUKA_CHAPORDER_FILE_PATH));
-		Config.set(Key.INPUT_DIR_PATH, chapOrderFile.getParentFile().getAbsolutePath());
 			
-//		Config.set(Key.INPUT_DIR_PATH, "E:\\Private\\ibuka\\resource\\10778");
-//		Config.set(Key.BUKA_PARSER_EXE_PATH, "D:\\Workspaces\\github\\buka-convertor\\lib\\buka_2.2\\buka.exe");
-//		Config.set(Key.BUKA_CHAPORDER_FILE_PATH, "E:\\Private\\ibuka\\resource\\10778\\chaporder.dat");
-//		Config.set(Key.OUTPUT_DIR_PATH, "E:\\Private\\ibuka");
 	}
 	
 	public static void checkConfig() throws IOException {
@@ -69,6 +69,10 @@ public class Main {
 		Log.info(Key.BUKA_PARSER_EXE_PATH.toString());
 		File bukaParserExe = new File(Config.get(Key.BUKA_PARSER_EXE_PATH));
 		FileUtil.checkFile(bukaParserExe, false);
+		
+		Log.info(Key.BUKA_PNG2JPG_EXE_PATH.toString());
+		File bukaPng2jpgExe = new File(Config.get(Key.BUKA_PNG2JPG_EXE_PATH));
+		FileUtil.checkFile(bukaPng2jpgExe, false);
 		
 		Log.info(Key.BUKA_CHAPORDER_FILE_PATH.toString());
 		File chapOrderFile = new File(Config.get(Key.BUKA_CHAPORDER_FILE_PATH));

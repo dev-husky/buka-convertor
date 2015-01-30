@@ -62,8 +62,12 @@ function init() {
 		$(".legend").append("<div class=\"index-tab\">番外篇</div>")
 	}
 	for (var i in chapOrder.links) {
+		var title = chapOrder.links[i].title;
+		if (title.length > 7) {
+			title = title.substring(0, 7) + "…";
+		}
 		var browserEntryHtml = "<div class=\"browser-entry\">"
-			+ "<a href=\"javascript:showPicBrowser(" + chapOrder.links[i].pageIndex  + ");\">" + chapOrder.links[i].title
+			+ "<a href=\"javascript:showPicBrowser(" + chapOrder.links[i].pageIndex  + ");\">" + title
 			+ "</a></div>";
 		if (chapOrder.links[i].type == 0) {
 			$(".episode").append(browserEntryHtml);

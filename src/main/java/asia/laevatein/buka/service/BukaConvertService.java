@@ -26,24 +26,26 @@ public class BukaConvertService {
 	
 	public void execute() throws IOException  {
 		loadingBukaChapOrderDat();
-		Log.info("Start converting [" + bukaChapOrder.getName() + "] ...");
+		Log.info("[" + bukaChapOrder.getName() + "] Start converting  ...");
 		File outputDir = parepareOutputDir();
 		
 		File outputPicDir = new File(outputDir, "pics");
 		FileUtil.checkDir(outputPicDir, true);
 		
 		for (Chap chap : bukaChapOrder.getLinks()) {
+			Log.info("[Chap " + chap.getCid() + "] Start ...");
 			File chapDir = new File(outputPicDir, chap.getCid());
-			if (chapDir.exists()) {
-				continue;
+			if (!chapDir.exists()) {
+				chapDir.mkdirs();
+				BukaUtil.convert(chap, new File(Config.get(Key.INPUT_DIR_PATH)), chapDir);
 			}
-			chapDir.mkdirs();
-			BukaUtil.convert(chap, new File(Config.get(Key.INPUT_DIR_PATH)), chapDir);
+			BukaUtil.png2jpg(chap, chapDir);
+			Log.info("[Chap " + chap.getCid() + "] Completed");
 		}
 		
 		HtmlService htmlService = new HtmlService(outputDir, bukaChapOrder);
 		htmlService.generateHtml();
-		Log.info("Converting [" + bukaChapOrder.getName() + "] finished");
+		Log.info("[" + bukaChapOrder.getName() + "] Completed");
 	}
 	
 	private File parepareOutputDir() {
